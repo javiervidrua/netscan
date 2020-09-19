@@ -66,7 +66,7 @@ case $RANGE in
 		done
 		;;
 	*)
-		echo '[-] Error: Invalid option'
+		echo '[-] Error: Invalid range'
 		printUsage
 		exit
 esac
