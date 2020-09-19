@@ -3,16 +3,16 @@
 # 2019 Javier Vidal
 
 # Functions
-usage-f(){
+printUsage(){
 	echo 'USAGE: ./netscan.sh <IP>/<range>'
 }
 
-ping-f(){
+pingIP(){
 	ping -c 1 $1 >/dev/null 2>&1
 	[ $? -eq 0 ] && echo IP: $1
 }
 
-check-f(){
+checkIP(){
 	if [ -z $(echo "$1" | grep -E '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b/[8\|16\|24]') ]; then
 		echo '[-] Error: Invalid IP format'
 		echo ''
@@ -22,7 +22,7 @@ check-f(){
 }
 
 # Main
-check-f $1
+checkIP $1
 
 IP=$(echo $1 | cut -d '/' -f 1)
 RANGE=$(echo $1 | cut -d '/' -f 2)
@@ -36,7 +36,7 @@ case $RANGE in
 		echo '[*] This will take a really long time...'
 		HALFIP=$(echo $IP | cut -d '.' -f 1)
 		for ADDRESS in $HALFIP.{1..255}{1..255}.{1..255}; do
-			ping-f $ADDRESS &
+			pingIP $ADDRESS &
 			PIDS[${I}]=$!
 			I=$(($I+1))
 		done
@@ -48,7 +48,7 @@ case $RANGE in
 		echo '[*] This will take a few minutes...'
 		HALFIP=$(echo $IP | cut -d '.' -f 1,2)
 		for ADDRESS in $HALFIP.{1..255}.{1..255}; do
-			ping-f $ADDRESS &
+			pingIP $ADDRESS &
 			PIDS[${I}]=$!
 			I=$(($I+1))
 		done
@@ -60,14 +60,14 @@ case $RANGE in
 		echo '[*] This will be fast'
 		HALFIP=$(echo $IP | cut -d '.' -f 1,2,3)
 		for ADDRESS in $HALFIP.{1..255}; do
-			ping-f $ADDRESS &
+			pingIP $ADDRESS &
 			PIDS[${I}]=$!
 			I=$(($I+1))
 		done
 		;;
 	*)
 		echo '[-] Error: Invalid option'
-		usage-f
+		printUsage
 		exit
 esac
 
