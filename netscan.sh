@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 2019 Javier Vidal
+# 2019 Javier Vidal Ruano
 
 # Functions
 printUsage(){
