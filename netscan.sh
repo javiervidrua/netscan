@@ -42,6 +42,11 @@ checkIP(){
 }
 
 # Main
+if [ `id -u` != '0' ]; then
+	echo "[-] Error: This program must be ran as root"
+	exit
+fi
+
 checkIP $1
 
 IP=$(echo $1 | cut -d '/' -f 1)
