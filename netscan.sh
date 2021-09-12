@@ -23,20 +23,20 @@
 #SOFTWARE.
 
 # Functions
-printUsage(){
+usage(){
 	echo 'USAGE: ./netscan.sh <IP>/<range>'
 }
 
 pingIP(){
 	ping -c 1 $1 >/dev/null 2>&1
-	[ $? -eq 0 ] && echo IP: $1
+	[ $? -eq 0 ] && echo "IP: $1"
 }
 
 checkIP(){
 	if [ -z $(echo "$1" | grep -E '\b([0-9]{1,3}\.){3}[0-9]{1,3}\b/[8\|16\|24]') ]; then
 		echo '[-] Error: Invalid IP format'
 		echo ''
-		usage-f
+		usage
 		exit
 	fi
 }
@@ -92,7 +92,7 @@ case $RANGE in
 		;;
 	*)
 		echo '[-] Error: Invalid range'
-		printUsage
+		usage
 		exit
 esac
 
